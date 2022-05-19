@@ -26,7 +26,6 @@ export const ModelLoader = ({ path }) => {
   const cyanLine = new THREE.LineBasicMaterial({ color: "cyan" });
   const magentaLine = new THREE.LineBasicMaterial({ color: "magenta" });
   rhinoObj.rotation.x = -Math.PI / 2;
-  console.log(rhinoObj);
   rhinoObj.traverse((child) => {
     if (child instanceof THREE.Line) {
       const rhinoAtt = child.userData.attributes.userStrings;
@@ -61,8 +60,6 @@ export const ModelLoader = ({ path }) => {
         default:
           break;
       }
-
-      // console.log(rhinoAtt[0]["object_name"]);
     }
   });
 

@@ -54,7 +54,6 @@ export const getStaticPaths = async () => {
       },
     };
   });
-  // console.log(paths);
   return {
     paths,
     fallback: false,
@@ -64,7 +63,6 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
   const { models } = getModelList();
   const { slug } = context.params;
-  console.log("models", models);
   const findedModelIndex = models.findIndex((model) => {
     return model.slug === slug;
   });
@@ -85,30 +83,3 @@ export const getStaticProps = async (context) => {
     },
   };
 };
-// export const getStaticProps = async (context) => {
-//   const files = fs.readdirSync(path.join("public", "models"));
-//   const models = files.map((filename) => {
-//     const slug = filename.replace(".3dm", "");
-
-//     return { slug };
-//   });
-//   // const fileIndex = files.findIndex((filename) => {
-//   //   return filename.replace(".3dm", "") === slug;
-//   // });
-//   // console.log(fileIndex);
-// const prev_i = fileIndex === 0 ? files.length - 1 : fileIndex - 1;
-// const next_i = (fileIndex + 1) % files.length;
-
-// const prev_slug = files[prev_i].replace(".3dm", "");
-// const next_slug = files[next_i].replace(".3dm", "");
-
-//   const { slug } = context.params;
-//   return {
-//     props: {
-//       slug,
-//       models,
-//       // prev_slug,
-//       // next_slug,
-//     },
-//   };
-// };

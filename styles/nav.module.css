@@ -12,3 +12,12 @@
   padding-left: 1rem;
   overflow-y: scroll;
 }
+
+.groupTitle {
+  font-weight: bold;
+  padding-top: 1rem;
+}
+
+.groupItem {
+  padding-left: 1rem;
+}
