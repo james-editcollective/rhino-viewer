@@ -19,7 +19,7 @@ export const ModelLoader = ({ path }) => {
   );
 
   // TODO : lineweight
-  const redLine = new THREE.LineBasicMaterial({ color: 0xff0000 });
+  const whiteLine = new THREE.LineBasicMaterial({ color: 0xffffff });
   const grayLine = new THREE.LineBasicMaterial({ color: 0x999999 });
   const blueLine = new THREE.LineBasicMaterial({ color: "blue" });
   const yellowLine = new THREE.LineBasicMaterial({ color: "yellow" });
@@ -41,6 +41,7 @@ export const ModelLoader = ({ path }) => {
       setInternalRoadCells(internal_road_cells[1]);
 
       const object_name_val = object_name[1];
+      console.log(object_name_val);
       switch (object_name_val) {
         case "cell":
           child.material = cyanLine;
@@ -56,6 +57,9 @@ export const ModelLoader = ({ path }) => {
           break;
         case "available_core_region":
           child.material = grayLine;
+          break;
+        case "lot_cv":
+          child.material = whiteLine;
           break;
         default:
           break;

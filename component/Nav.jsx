@@ -11,10 +11,6 @@ export const Nav = ({ models }) => {
   }, {});
 
   const pnuList = Object.keys(groups);
-  pnuList.map((pnu) => {
-    console.log(pnu);
-    console.log(groups[pnu]);
-  });
 
   return (
     <div className={style.container}>
