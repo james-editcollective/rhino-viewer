@@ -5,9 +5,9 @@ import style from "../styles/nav.module.css";
 export const Nav = ({ models }) => {
   return (
     <div className={style.container}>
-      {models.map((model, index) => (
-        <li>
-          <Link href={`/${model.slug}`} key={index}>
+      {models.map((model) => (
+        <li key={model.id}>
+          <Link href={`/${model.slug}`}>
             <a>{model.slug}</a>
           </Link>
         </li>
