@@ -1,0 +1,14 @@
+@value navWidth from "./common/size.css";
+
+.container {
+  position: absolute;
+  display: block;
+  /* background-color: aqua; */
+  top: 0;
+  left: 0;
+  width: navWidth;
+  height: 100%;
+  padding-top: 2rem;
+  padding-left: 1rem;
+  overflow-y: scroll;
+}
