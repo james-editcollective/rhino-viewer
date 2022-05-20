@@ -12,6 +12,7 @@ export const ViewModel = ({ slug, models, prev_slug, next_slug }) => {
   const targetParkingCount = useAttStore((state) => state.targetParkingCount);
   const lotArea = useAttStore((state) => state.lotArea);
   const internalRoadCells = useAttStore((state) => state.internalRoadCells);
+  const isEnough = targetParkingCount - internalRoadCells <= 0;
   return (
     <>
       <div className={style.container}>
@@ -32,7 +33,9 @@ export const ViewModel = ({ slug, models, prev_slug, next_slug }) => {
           <div>LOT INFO : {slug}</div>
           <div>대지면적 (㎡) : {lotArea}</div>
           <div>목표 주차 대수 : {targetParkingCount}</div>
-          <div>내부 도로 자주식 주차 대수 : {internalRoadCells}</div>
+          <div className={isEnough ? null : style.lack}>
+            내부 도로 자주식 주차 대수 : {internalRoadCells}
+          </div>
         </div>
       </div>
       <Nav models={models} currentModel={slug} />
