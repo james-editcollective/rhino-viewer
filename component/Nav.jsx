@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import style from "../styles/nav.module.css";
 
-export const Nav = ({ models }) => {
+export const Nav = ({ models, currentModel }) => {
   const groups = models.reduce((groups, item) => {
     const group = groups[item.pnu] || [];
     group.push(item);
@@ -11,14 +11,22 @@ export const Nav = ({ models }) => {
   }, {});
 
   const pnuList = Object.keys(groups);
-
   return (
     <div className={style.container}>
       {pnuList.map((pnu) => (
         <div>
-          <div className={style.groupTitle}>{pnu}</div>
+          <div className={style.groupTitle} key={pnu}>
+            {pnu}
+          </div>
           {groups[pnu].map((model) => (
-            <div className={style.groupItem}>
+            <div
+              className={
+                currentModel === model.slug
+                  ? style.selectedGroupItem
+                  : style.groupItem
+              }
+              key={model.slug}
+            >
               <Link href={`/${model.slug}`}>
                 <a>{model.slug}</a>
               </Link>
@@ -26,13 +34,6 @@ export const Nav = ({ models }) => {
           ))}
         </div>
       ))}
-      {/* {models.map((model) => (
-        <li key={model.id}>
-          <Link href={`/${model.slug}`}>
-            <a>{model.slug}</a>
-          </Link>
-        </li>
-      ))} */}
     </div>
   );
 };

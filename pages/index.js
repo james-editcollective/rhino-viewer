@@ -9,7 +9,7 @@ export default function Home({ models }) {
 
 
     <div>
-      <Nav models={models} />
+      <Nav models={models} currentModel={null} />
     </div>
 
   )

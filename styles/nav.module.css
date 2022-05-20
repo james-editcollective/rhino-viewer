@@ -9,15 +9,22 @@
   width: navWidth;
   height: 100%;
   padding-top: 2rem;
-  padding-left: 1rem;
+  /* padding-left: 1rem; */
   overflow-y: scroll;
+  margin: 0;
 }
 
 .groupTitle {
   font-weight: bold;
   padding-top: 1rem;
+  padding-left: 1rem;
 }
 
 .groupItem {
-  padding-left: 1rem;
+  padding-left: 2rem;
+}
+
+.selectedGroupItem {
+  padding-left: 2rem;
+  background-color: rgba(0, 0, 0, 0.2);
 }

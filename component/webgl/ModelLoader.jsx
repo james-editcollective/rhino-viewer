@@ -41,7 +41,6 @@ export const ModelLoader = ({ path }) => {
       setInternalRoadCells(internal_road_cells[1]);
 
       const object_name_val = object_name[1];
-      console.log(object_name_val);
       switch (object_name_val) {
         case "cell":
           child.material = cyanLine;

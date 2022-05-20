@@ -12,7 +12,6 @@ export const ViewModel = ({ slug, models, prev_slug, next_slug }) => {
   const targetParkingCount = useAttStore((state) => state.targetParkingCount);
   const lotArea = useAttStore((state) => state.lotArea);
   const internalRoadCells = useAttStore((state) => state.internalRoadCells);
-
   return (
     <>
       <div className={style.container}>
@@ -36,7 +35,7 @@ export const ViewModel = ({ slug, models, prev_slug, next_slug }) => {
           <div>내부 도로 자주식 주차 대수 : {internalRoadCells}</div>
         </div>
       </div>
-      <Nav models={models} />
+      <Nav models={models} currentModel={slug} />
     </>
   );
 };
@@ -50,7 +49,6 @@ export const getStaticPaths = async () => {
     return {
       params: {
         slug,
-        // slug: filename.replace(".3dm", ""),
       },
     };
   });
