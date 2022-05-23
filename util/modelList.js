@@ -19,8 +19,17 @@ export const getModelList = () => {
     })
 
     return {
-        models
+        models: models.sort(sortByScenarioIndex)
     }
 }
 
 export default getModelList
+
+
+const sortByScenarioIndex = (a, b) => {
+    if (Number(a.pnuIndex) > Number(b.pnuIndex)) return 1
+    if (Number(a.pnuIndex) < Number(b.pnuIndex)) return -1
+    if (a.pnuType > b.pnuType) return 1
+    if (a.pnuType < b.pnuType) return -1
+    return a.scenarioIndex - b.scenarioIndex
+}

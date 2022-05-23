@@ -1,6 +1,13 @@
-import React, { useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import Link from "next/link";
 import style from "../styles/nav.module.css";
+import { ActiveLink } from "./ActiveLink";
 
 export const Nav = ({ models, currentModel }) => {
   const groups = models.reduce((groups, item) => {
@@ -10,16 +17,24 @@ export const Nav = ({ models, currentModel }) => {
     return groups;
   }, {});
 
+  const selectedRef = useRef();
+  const containerRef = useRef();
+
+  useEffect(() => {
+    if (containerRef.current && selectedRef.current) {
+      containerRef.current.scrollTo(0, selectedRef.current.offsetTop - 100);
+    }
+  }, []);
+
   const pnuList = Object.keys(groups);
   return (
-    <div className={style.container}>
+    <div className={style.container} ref={containerRef}>
       {pnuList.map((pnu) => (
-        <div>
-          <div className={style.groupTitle} key={pnu}>
-            {pnu}
-          </div>
+        <div key={pnu}>
+          <div className={style.groupTitle}>{pnu}</div>
           {groups[pnu].map((model) => (
             <div
+              ref={currentModel === model.slug ? selectedRef : null}
               className={
                 currentModel === model.slug
                   ? style.selectedGroupItem

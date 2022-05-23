@@ -4,10 +4,14 @@ import { Canvas } from "@react-three/fiber";
 import { ModelLoader } from "./ModelLoader";
 import Control from "./Control";
 
+const renderOptions = {
+  logarithmicDepthBuffer: true,
+};
+
 export const Experience = ({ path }) => {
   return (
     <div className={style.canvas_container}>
-      <Canvas>
+      <Canvas gl={renderOptions}>
         <ModelLoader path={path} />
         <ambientLight />
         <Control />

@@ -25,22 +25,26 @@ export const ModelLoader = ({ path }) => {
   const yellowLine = new THREE.LineBasicMaterial({ color: "yellow" });
   const cyanLine = new THREE.LineBasicMaterial({ color: "cyan" });
   const magentaLine = new THREE.LineBasicMaterial({ color: "magenta" });
+
+  const grayStdMaterial = new THREE.MeshStandardMaterial({ color: 0x999999 });
+
   rhinoObj.rotation.x = -Math.PI / 2;
   rhinoObj.traverse((child) => {
+    if (!child.userData.attributes) return true;
+
+    const rhinoAtt = child.userData.attributes.userStrings;
+
+    const object_name = rhinoAtt[0];
+    const target_parking_count = rhinoAtt[1];
+    const lot_area = rhinoAtt[2];
+    const internal_road_cells = rhinoAtt[3];
+    const object_name_val = object_name[1];
+
+    setTargetParkingCount(target_parking_count[1]);
+    setLotArea(lot_area[1]);
+    setInternalRoadCells(internal_road_cells[1]);
+
     if (child instanceof THREE.Line) {
-      const rhinoAtt = child.userData.attributes.userStrings;
-      const object_name = rhinoAtt[0];
-
-      const target_parking_count = rhinoAtt[1];
-      setTargetParkingCount(target_parking_count[1]);
-
-      const lot_area = rhinoAtt[2];
-      setLotArea(lot_area[1]);
-
-      const internal_road_cells = rhinoAtt[3];
-      setInternalRoadCells(internal_road_cells[1]);
-
-      const object_name_val = object_name[1];
       switch (object_name_val) {
         case "cell":
           child.material = cyanLine;
@@ -59,6 +63,15 @@ export const ModelLoader = ({ path }) => {
           break;
         case "lot_cv":
           child.material = whiteLine;
+          break;
+        default:
+          break;
+      }
+    } else if (child instanceof THREE.Mesh) {
+      switch (object_name_val) {
+        case "available_core_region":
+          child.position.z -= 1;
+          child.material = grayStdMaterial;
           break;
         default:
           break;
