@@ -31,5 +31,5 @@ const sortByScenarioIndex = (a, b) => {
     if (Number(a.pnuIndex) < Number(b.pnuIndex)) return -1
     if (a.pnuType > b.pnuType) return 1
     if (a.pnuType < b.pnuType) return -1
-    return a.scenarioIndex - b.scenarioIndex
+    return Number(a.scenarioIndex) - Number(b.scenarioIndex)
 }

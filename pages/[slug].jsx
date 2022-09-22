@@ -1,44 +1,58 @@
 import fs from "fs";
 import path from "path";
 import Link from "next/link";
-import { Experience } from "../component/webgl/Experience";
-import style from "../styles/viewmodel.module.css";
-import { Nav } from "../component/Nav";
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
+import { Experience } from "../components/webgl/Experience";
+import Nav from '../components/Nav'
 import useAttStore from "../store/attStore";
 import getModelList from "../util/modelList";
 
-export const ViewModel = ({ slug, models, prev_slug, next_slug }) => {
-  const modelPath = `../../models/${slug}.3dm`;
-  const targetParkingCount = useAttStore((state) => state.targetParkingCount);
-  const lotArea = useAttStore((state) => state.lotArea);
-  const internalRoadCells = useAttStore((state) => state.internalRoadCells);
-  const isEnough = targetParkingCount - internalRoadCells <= 0;
+
+function NextPrevious({next_slug, prev_slug}) {
+  return (
+    <span className="isolate inline-flex rounded-md shadow-sm">
+      <Link href={`/${prev_slug}`}>
+      <button
+        type="button"
+        className="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+      >
+        <span className="sr-only">Previous</span>
+        <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+      </button>
+      </Link>
+      <Link href={`/${next_slug}`}>
+      <button
+        type="button"
+        className="relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+      >
+        <span className="sr-only">Next</span>
+        <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+      </button>
+      </Link>
+    </span>
+  )
+}
+
+export const ViewModel = ({ currentModel, models, prevModel, nextModel }) => {
+  const modelPath = `../../models/${currentModel.slug}.3dm`;
+  const nextModelPath = `../../models/${nextModel.slug}.3dm`;
+  
   return (
     <>
-      <div className={style.container}>
+      <div className="absolute left-64 w-[calc(100%-16rem)] h-full">
+        <div className="flex h-4/5">
         <Experience path={modelPath} />
-        <div className={style.prev_next}>
-          <Link href={`/${prev_slug}`}>
-            <a>
-              <button>PREV</button>
-            </a>
-          </Link>
-          <Link href={`/${next_slug}`}>
-            <a>
-              <button>NEXT</button>
-            </a>
-          </Link>
+        <div className="w-1"></div>
+        <Experience path={nextModelPath} />
         </div>
-        <div className={style.info}>
-          <div>LOT INFO : {slug}</div>
-          <div>대지면적 (㎡) : {lotArea}</div>
-          <div>목표 주차 대수 : {targetParkingCount}</div>
-          <div className={isEnough ? null : style.lack}>
-            내부 도로 자주식 주차 대수 : {internalRoadCells}
-          </div>
+        <div className='m-4'>
+        <NextPrevious prev_slug={prevModel.slug} next_slug={nextModel.slug} />
+        </div>
+        <div className="p-4">
+          <div>LOT INFO : {currentModel.slug}</div>
         </div>
       </div>
-      <Nav models={models} currentModel={slug} />
+      <Nav models={models} currentModel={currentModel.slug} />
     </>
   );
 };
@@ -64,23 +78,24 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
   const { models } = getModelList();
   const { slug } = context.params;
-  const findedModelIndex = models.findIndex((model) => {
+  const currentModelIndex = models.findIndex((model) => {
     return model.slug === slug;
   });
-
+  
+  const currentModel = models[currentModelIndex]
   const prev_i =
-    findedModelIndex === 0 ? models.length - 1 : findedModelIndex - 1;
-  const next_i = (findedModelIndex + 1) % models.length;
+    currentModelIndex === 0 ? models.length - 1 : currentModelIndex - 1;
+  const next_i = (currentModelIndex + 1) % models.length;
 
-  const prev_slug = models[prev_i].slug;
-  const next_slug = models[next_i].slug;
+  const prevModel = models[prev_i];
+  const nextModel = models[next_i];
 
   return {
     props: {
-      slug,
+      currentModel,
       models,
-      prev_slug,
-      next_slug,
+      prevModel,
+      nextModel,
     },
   };
 };

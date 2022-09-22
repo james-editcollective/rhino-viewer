@@ -1,5 +1,5 @@
 {
-  "name": "rhino-viewer",
+  "name": "rhino-viewer-dual",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,17 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@react-three/drei": "^9.11.0",
-    "@react-three/fiber": "^8.0.17",
-    "next": "12.1.6",
-    "react": "18.1.0",
-    "react-dom": "18.1.0",
-    "three": "^0.140.2",
-    "three.meshline": "^1.4.0",
-    "zustand": "^4.0.0-rc.1"
+    "@headlessui/react": "^1.7.1",
+    "@heroicons/react": "^2.0.11",
+    "@react-three/drei": "^9.29.1",
+    "@react-three/fiber": "^8.7.3",
+    "nanoid": "^4.0.0",
+    "next": "12.3.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "three": "^0.144.0",
+    "zustand": "^4.1.1"
   },
   "devDependencies": {
-    "eslint": "8.15.0",
-    "eslint-config-next": "12.1.6"
+    "autoprefixer": "^10.4.10",
+    "eslint": "8.23.1",
+    "eslint-config-next": "12.3.0",
+    "postcss": "^8.4.16",
+    "prettier": "^2.7.1",
+    "prettier-plugin-tailwindcss": "^0.1.13",
+    "tailwindcss": "^3.1.8"
   }
 }

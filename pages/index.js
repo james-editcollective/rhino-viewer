@@ -1,17 +1,12 @@
-// import fs from 'fs'
-// import path from 'path'
-import Link from 'next/link'
-import { Nav } from '../component/Nav'
+import Head from 'next/head'
+import Image from 'next/image'
+import styles from '../styles/Home.module.css'
+import Nav from '../components/Nav'
 import getModelList from '../util/modelList'
 
-export default function Home({ models }) {
+export default function Home({models}) {
   return (
-
-
-    <div>
-      <Nav models={models} currentModel={null} />
-    </div>
-
+    <Nav models={models} currentModel={null} />
   )
 }
 
