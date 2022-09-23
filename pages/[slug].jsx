@@ -6,18 +6,73 @@ import { Experience } from '../components/webgl/Experience'
 import Nav from '../components/Nav'
 import getModelList from '../util/modelList'
 import { useCallback, useEffect, useRef, useState } from 'react'
+// import useAttStore from '../store/attStore'
 
-function NextPrevious({ next_slug, prev_slug, prevClick, nextClick }) {
+function NextPrevious({ next_slug, prev_slug }) {
   const prevRef = useRef()
   const nextRef = useRef()
 
-  if (nextClick) {
-    console.log(nextRef)
+  const [prevPage, setPrevPage] = useState(false)
+  const [nextPage, setNextPage] = useState(false)
+
+  const handleKeyUp = useCallback((event) => {
+    const { key, keyCode } = event
+    if (
+      key === 'ArrowRight' ||
+      key === 'ArrowDown' ||
+      keyCode === 39 ||
+      keyCode === 40
+    ) {
+      setNextPage(false)
+    }
+    if (
+      key === 'ArrowLeft' ||
+      key === 'ArrowUp' ||
+      keyCode === 37 ||
+      keyCode === 38
+    ) {
+      setPrevPage(false)
+    }
+  }, [])
+  const handleKeyDown = useCallback((event) => {
+    const { key, keyCode } = event
+    if (
+      key === 'ArrowRight' ||
+      key === 'ArrowDown' ||
+      keyCode === 39 ||
+      keyCode === 40
+    ) {
+      setNextPage(true)
+    }
+    if (
+      key === 'ArrowLeft' ||
+      key === 'ArrowUp' ||
+      keyCode === 37 ||
+      keyCode === 38
+    ) {
+      setPrevPage(true)
+    }
+  }, [])
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('keyup', handleKeyUp)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('keyup', handleKeyUp)
+    }
+  }, [handleKeyDown, handleKeyUp])
+
+  if (nextRef.current && nextPage) {
+    nextRef.current.click()
+  }
+  if (prevRef.current && prevPage) {
+    prevRef.current.click()
   }
   return (
     <span className="isolate inline-flex rounded-md shadow-sm">
-      <Link href={`/${prev_slug}`} ref={prevRef}>
+      <Link href={`/${prev_slug}`}>
         <button
+          ref={prevRef}
           type="button"
           className="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
         >
@@ -41,51 +96,22 @@ function NextPrevious({ next_slug, prev_slug, prevClick, nextClick }) {
 
 export const ViewModel = ({ currentModel, models, prevModel, nextModel }) => {
   const modelPath = `../../models/${currentModel.slug}.3dm`
-  const [prevClick, setPrevClick] = useState(false)
-  const [nextClick, setNextClick] = useState(false)
-  const handleKeyUp = useCallback((event) => {
-    const { key, keyCode } = event
-    if (key === 'ArrowRight') {
-      setNextClick(true)
-    }
-    if (key === 'ArrowLeft') {
-      setPrevClick(true)
-    }
-  }, [])
-  const handleKeyDown = useCallback((event) => {
-    const { key, keyCode } = event
-    if (key === 'ArrowRight') {
-      setNextClick(false)
-    }
-    if (key === 'ArrowLeft') {
-      setPrevClick(false)
-    }
-  }, [])
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown)
-    window.addEventListener('keyup', handleKeyUp)
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-      window.removeEventListener('keyup', handleKeyUp)
-    }
-  }, [handleKeyDown])
-
+  // const userStrings = useAttStore((state) => state.userStrings)
+  // console.log(userStrings)
   return (
     <>
-      <div className="absolute left-64 h-full w-[calc(100%-16rem)]">
-        <div className="flex h-4/5">
+      <div className="absolute left-72 h-full w-[calc(100%-18rem)]">
+        <div className="flex h-3/4">
           <Experience path={modelPath} />
         </div>
         <div className="m-4">
-          <NextPrevious
-            prevClick={prevClick}
-            nextClick={nextClick}
-            prev_slug={prevModel.slug}
-            next_slug={nextModel.slug}
-          />
+          <NextPrevious prev_slug={prevModel.slug} next_slug={nextModel.slug} />
         </div>
         <div className="p-4">
-          <div>LOT INFO : {currentModel.slug}</div>
+          <div>PNU : {currentModel.pnu}</div>
+          <div>PROGRAM : {currentModel.pnuType}</div>
+          <div>SCENARIO_INDEX : {currentModel.scenarioIndex}</div>
+          {/* <div>parkingCount : {parkingCount}</div> */}
         </div>
       </div>
       <Nav models={models} currentModel={currentModel.slug} />
