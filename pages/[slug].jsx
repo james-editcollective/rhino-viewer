@@ -110,7 +110,7 @@ export const ViewModel = ({ currentModel, models, prevModel, nextModel }) => {
         <div className="p-4">
           <div>PNU : {currentModel.pnu}</div>
           <div>PROGRAM : {currentModel.pnuType}</div>
-          <div>SCENARIO_INDEX : {currentModel.scenarioIndex}</div>
+          {/* <div>SCENARIO_INDEX : {currentModel.scenarioIndex}</div> */}
           {/* <div>parkingCount : {parkingCount}</div> */}
         </div>
       </div>
